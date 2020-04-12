@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import alertaReducer from './reducer';
-import alertaContext from './context';
+import AlertaContext from './context';
 import { MOSTRAR_ALERTA, OCULTAR_ALERTA } from '../../types';
 
 const AlertaState = (props) => {
@@ -10,11 +10,11 @@ const AlertaState = (props) => {
 
   const [state, dispatch] = useReducer(alertaReducer, initialState);
 
-  const mostrarAlerta = (mensaje, categoria) => {
+  const mostrarAlerta = (msg, categoria) => {
     dispatch({
       type: MOSTRAR_ALERTA,
       payload: {
-        mensaje,
+        msg,
         categoria,
       },
     });
@@ -26,14 +26,14 @@ const AlertaState = (props) => {
   };
 
   return (
-    <alertaContext.Provider
+    <AlertaContext.Provider
       value={{
         alerta: state.alerta,
         mostrarAlerta,
       }}
     >
       {props.children}
-    </alertaContext.Provider>
+    </AlertaContext.Provider>
   );
 };
 
