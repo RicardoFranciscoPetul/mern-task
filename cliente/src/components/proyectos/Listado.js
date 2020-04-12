@@ -13,7 +13,7 @@ const ListadoProyectos = () => {
   } = proyectosContext;
 
   const tareasContext = useContext(TareasContext);
-  const { obtenerTareas, tareas } = tareasContext;
+  const { obtenerTareas } = tareasContext;
 
   useEffect(() => {
     obtenerProyectos();

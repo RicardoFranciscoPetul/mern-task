@@ -38,7 +38,7 @@ const NuevaCuenta = () => {
         'alerta-error'
       );
 
-    if (password != confirmar)
+    if (password !== confirmar)
       return mostrarAlerta('Las contraseñas no coinciden', 'alerta-error');
   };
   return (
