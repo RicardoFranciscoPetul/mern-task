@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AlertaContext from '../../context/alertas/context';
+import AuthContext from '../../context/auth/context';
 
-const NuevaCuenta = () => {
-  const [credenciales, setCredenciales] = useState({
+const NuevaCuenta = (props) => {
+  const [usuario, setUsuario] = useState({
     nombre: '',
     email: '',
     password: '',
@@ -11,13 +12,20 @@ const NuevaCuenta = () => {
   });
 
   const alertaContext = useContext(AlertaContext);
+  const authContext = useContext(AuthContext);
 
   const { alerta, mostrarAlerta } = alertaContext;
+  const { mensaje, autenticado, registrarUsuario } = authContext;
 
-  const { nombre, email, password, confirmar } = credenciales;
+  useEffect(() => {
+    if (autenticado) props.history.push('/proyectos');
+    if (mensaje) mostrarAlerta(mensaje.msg, mensaje.categoria);
+  }, [mensaje, autenticado, props.history]);
+
+  const { nombre, email, password, confirmar } = usuario;
   const handleChange = (e) => {
-    setCredenciales({
-      ...credenciales,
+    setUsuario({
+      ...usuario,
       [e.target.name]: e.target.value,
     });
   };
@@ -40,6 +48,12 @@ const NuevaCuenta = () => {
 
     if (password !== confirmar)
       return mostrarAlerta('Las contraseñas no coinciden', 'alerta-error');
+
+    registrarUsuario({
+      nombre,
+      email,
+      password,
+    });
   };
   return (
     <div className='form-usuario'>
